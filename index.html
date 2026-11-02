@@ -275,7 +275,7 @@ footer .wrap > * + * { margin-top: 14px; }
     <span class="k">Why we built it</span>
     <p>Vitaly started after a family member of one of our cofounders had a heart attack. Their Apple Watch records a medical-grade ECG,
     yet it kept answering &ldquo;Inconclusive&rdquo;, when we knew those recordings could show whether a worrying PVC pattern was there.
-    We believe in <b>preventative sensing</b>: the sensors people already wear should catch the patterns worth a doctor&rsquo;s look early,
+    We believe in <b>preventive sensing</b>: the sensors people already wear should catch the patterns worth a doctor&rsquo;s look early,
     privately, and say clearly what to do next.</p>
   </aside>
 </div></section>
@@ -316,6 +316,46 @@ footer .wrap > * + * { margin-top: 14px; }
   </div>
 </div></section>
 
+<section id="see"><div class="wrap">
+  <div class="eyebrow">Our approach &middot; see inside the box</div>
+  <h2>Deterministic preventive sensing: a decision model you can see inside</h2>
+  <p class="col">Vitaly is a domain expert system. Its core is a deterministic state machine built from the bedside criteria cardiologists use:
+  a beat that comes early, is wide, is shaped unlike your usual beat, and is followed by a pause. On its own that sets a predictable, auditable
+  floor: a 78.7% PVC score on patients it never saw. A small learned <b>System 1 decision model</b>, fifteen tiny networks, then
+  re-judges each beat the way an expert's quick intuition would, and lifts the score to 95.3%. It stays mechanistically interpretable: every call traces back to measurements you can see,
+  and the same recording always gives the same answer.</p>
+  <p class="col">Below, a simulated ECG from a published heart model (McSharry et al., 2003) streams in real time. On the left, the electrical wave
+  crosses the heart; on the right, the state machine scores each beat in the open. Press <b>Inject PVC</b> to start a beat in the ventricle instead
+  of the heart's pacemaker, and watch it arrive early, wide and followed by a pause.</p>
+  <div id="sim" class="simbox"><p class="small">The live simulator starts when it scrolls into view.</p></div>
+</div></section>
+
+<section id="pi"><div class="wrap">
+  <div class="eyebrow">Tested on a Raspberry Pi</div>
+  <h2>Fast enough on a $15 Raspberry Pi Zero 2 W</h2>
+  <div class="two pi">
+    <div><p>We ran Vitaly on a Raspberry Pi Zero 2 W: a $15 board smaller than a credit card, with 512&nbsp;MB of memory, a 1&nbsp;GHz
+    processor and no internet connection. It read each 30-second recording in about 28 seconds, about as long as the watch takes to
+    record it, and found the same beats and the same number of PVCs as a laptop on all 11 test strips.</p>
+    <p>That is the same code this page runs, on one of the board&rsquo;s four cores, in under 100&nbsp;MB of memory. A private
+    health box at home that reads recordings without the cloud is practical on hardware this cheap.</p>
+    <div class="tablewrap"><table class="pit">
+      <tr><th>Device</th><th>Time per 30-second recording</th><th>Same result as the laptop</th></tr>
+      <tr><td>Laptop (MacBook Pro, Apple M5 Max)</td><td class="n">0.5 s</td><td>reference</td></tr>
+      <tr><td><b>Raspberry Pi Zero 2 W</b> ($15, 512 MB)</td><td class="n"><b>28 s</b> (23&ndash;35 s)</td><td>yes, 11 of 11 strips</td></tr>
+    </table></div>
+    <p class="small">Measured on 2 November 2026 with Node 20 on the Pi, run headless with no browser, on this page&rsquo;s 11 strips
+    (3 timed runs each, median), with the board&rsquo;s own voice-assistant software running alongside. The 15 networks load in
+    0.06&nbsp;s. The whole page also ran in Chromium on the Zero (19&ndash;28 s per strip, and
+    157 s once while the board was swapping), but a desktop browser is a squeeze in
+    512&nbsp;MB, so a Pi is best run headless. Not yet tried: all four cores.</p></div>
+    <figure><img src="img/healthypi5.jpg" alt="A small health-monitoring board with a screen showing an ECG trace and heart-rate variability plots" loading="lazy">
+      <figcaption class="small">Representative image only: the <a href="https://www.crowdsupply.com/protocentral/healthypi-5" target="_blank" rel="noopener">ProtoCentral
+      HealthyPi 5</a> health-monitoring board, photo from its Crowd Supply campaign. Not a Vitaly device, and not the board we tested.</figcaption></figure>
+  </div>
+</div></section>
+
+
 <section id="trust"><div class="wrap">
   <div class="eyebrow">Why trust it</div>
   <h2>Trained on over 2 million heartbeats from 2,161 patients. Tested on 238 it had never seen.</h2>
@@ -349,20 +389,6 @@ footer .wrap > * + * { margin-top: 14px; }
     +3.9 points there (95% interval +1.2 to +7.2).
     Cardiologist range: an estimate from published studies, not measured on these strips (notes below).</p>
   </div>
-</div></section>
-
-<section id="see"><div class="wrap">
-  <div class="eyebrow">Our approach &middot; see inside the box</div>
-  <h2>Deterministic preventative sensing: a decision model you can see inside</h2>
-  <p class="col">Vitaly is a domain expert system. Its core is a deterministic state machine built from the bedside criteria cardiologists use:
-  a beat that comes early, is wide, is shaped unlike your usual beat, and is followed by a pause. On its own that sets a predictable, auditable
-  floor (78.7%). A small learned <b>System 1 decision model</b>, fifteen tiny networks, then re-judges each beat the way an expert's quick
-  intuition would, and raises that ceiling to 95.3%. It stays mechanistically interpretable: every call traces back to measurements you can see,
-  and the same recording always gives the same answer.</p>
-  <p class="col">Below, a simulated ECG from a published heart model (McSharry et al., 2003) streams in real time. On the left, the electrical wave
-  crosses the heart; on the right, the state machine scores each beat in the open. Press <b>Inject PVC</b> to start a beat in the ventricle instead
-  of the heart's pacemaker, and watch it arrive early, wide and followed by a pause.</p>
-  <div id="sim" class="simbox"><p class="small">The live simulator starts when it scrolls into view.</p></div>
 </div></section>
 
 <section id="how"><div class="wrap">
@@ -416,31 +442,6 @@ footer .wrap > * + * { margin-top: 14px; }
       <div class="decchart"><div class="brow axisrow sets"><div class="bname"></div><div class="axis"><span style="left:0%">0%</span><span style="left:20%">20%</span><span style="left:40%">40%</span><span style="left:60%">60%</span><span style="left:80%">80%</span><span style="left:100%">100%</span></div></div><div class="brow sets"><div class="bname"><b>MIT-BIH test</b><span>55 of 200 strips need a doctor by the labels</span></div><div class="track pairs"><div class="pbar sens"><span style="width:96.40%"></span><em style="left:calc(96.40% + 6px)">96% <i>(53 of 55)</i></em></div><div class="pbar spec"><span style="width:95.90%"></span><em style="left:calc(95.90% + 6px)">96% <i>(139 of 145)</i></em></div></div></div><div class="brow sets"><div class="bname"><b>INCART lead I</b><span>33 of 94 strips need a doctor by the labels</span></div><div class="track pairs"><div class="pbar sens"><span style="width:84.80%"></span><em style="left:calc(84.80% + 6px)">85% <i>(28 of 33)</i></em></div><div class="pbar spec"><span style="width:95.10%"></span><em style="left:calc(95.10% + 6px)">95% <i>(58 of 61)</i></em></div></div></div><div class="brow sets"><div class="bname"><b>Icentia11k</b><span>51 of 200 strips need a doctor by the labels</span></div><div class="track pairs"><div class="pbar sens"><span style="width:88.20%"></span><em style="left:calc(88.20% + 6px)">88% <i>(45 of 51)</i></em></div><div class="pbar spec"><span style="width:96.60%"></span><em style="left:calc(96.60% + 6px)">97% <i>(144 of 149)</i></em></div></div></div><div class="brow axisrow sets"><div class="bname"></div><div class="axt">share of strips (%)</div></div></div>
       <p class="small foot">Most disagreements sit on the 10% line (3 PVCs in 39 beats against 4). The two clear misses on lead I are long runs where every beat is a PVC: the hardest case left.</p>
     </div>
-  </div>
-</div></section>
-
-<section id="pi"><div class="wrap">
-  <div class="eyebrow">Tested on a Raspberry Pi</div>
-  <h2>Fast enough on a $15 Raspberry Pi Zero 2 W</h2>
-  <div class="two pi">
-    <div><p>We ran Vitaly on a Raspberry Pi Zero 2 W: a $15 board smaller than a credit card, with 512&nbsp;MB of memory, a 1&nbsp;GHz
-    processor and no internet connection. It read each 30-second recording in about 28 seconds, about as long as the watch takes to
-    record it, and found the same beats and the same number of PVCs as a laptop on all 11 test strips.</p>
-    <p>That is the same code this page runs, on one of the board&rsquo;s four cores, in under 100&nbsp;MB of memory. A private
-    health box at home that reads recordings without the cloud is practical on hardware this cheap.</p>
-    <div class="tablewrap"><table class="pit">
-      <tr><th>Device</th><th>Time per 30-second recording</th><th>Same result as the laptop</th></tr>
-      <tr><td>Laptop (MacBook Pro, Apple M5 Max)</td><td class="n">0.5 s</td><td>reference</td></tr>
-      <tr><td><b>Raspberry Pi Zero 2 W</b> ($15, 512 MB)</td><td class="n"><b>28 s</b> (23&ndash;35 s)</td><td>yes, 11 of 11 strips</td></tr>
-    </table></div>
-    <p class="small">Measured on 2 November 2026 with Node 20 on the Pi, run headless with no browser, on this page&rsquo;s 11 strips
-    (3 timed runs each, median), with the board&rsquo;s own voice-assistant software running alongside. The 15 networks load in
-    0.06&nbsp;s. The whole page also ran in Chromium on the Zero (19&ndash;28 s per strip, and
-    157 s once while the board was swapping), but a desktop browser is a squeeze in
-    512&nbsp;MB, so a Pi is best run headless. Not yet tried: all four cores.</p></div>
-    <figure><img src="img/healthypi5.jpg" alt="A small health-monitoring board with a screen showing an ECG trace and heart-rate variability plots" loading="lazy">
-      <figcaption class="small">Representative image only: the <a href="https://www.crowdsupply.com/protocentral/healthypi-5" target="_blank" rel="noopener">ProtoCentral
-      HealthyPi 5</a> health-monitoring board, photo from its Crowd Supply campaign. Not a Vitaly device, and not the board we tested.</figcaption></figure>
   </div>
 </div></section>
 
