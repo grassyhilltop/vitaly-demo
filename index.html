@@ -67,7 +67,8 @@ button:focus-visible, .cta:focus-visible, input:focus-visible + .cta { outline: 
 .picks button[aria-pressed="true"] { border-color: var(--ours); box-shadow: inset 0 0 0 1px var(--ours); }
 .ghost { color: var(--ours); border-color: color-mix(in srgb, var(--ours) 50%, var(--line)); background: transparent; }
 .status { font: 13px var(--mono); color: var(--muted); margin-top: 12px; min-height: 1.4em; }
-.herotop { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 16px 28px; max-width: 1000px; }
+.herotop { display: flex; flex-wrap: wrap; justify-content: flex-start; align-items: center; gap: 16px 32px; max-width: 1000px; }
+.herotop h1 { max-width: 14ch; }
 .herotop .vbtn { flex: none; }
 .pills { display: inline-grid; gap: 8px; max-width: 100%; }
 .vbtn { display: inline-flex; align-items: center; gap: 10px; font: 750 17px var(--display); font-stretch: 88%; padding: 10px 20px 10px 10px;
@@ -220,6 +221,8 @@ tr.pvc td:first-child { box-shadow: inset 3px 0 0 var(--pvc); }
 .pi { align-items: center; }
 .pi > div { display: grid; gap: 12px; }
 .pi figure { margin: 0; display: grid; gap: 6px; }
+.tablewrap { overflow-x: auto; }
+.pit { font-size: 14px; } .pit td { padding: 7px 8px; } .pit td:first-child { min-width: 12ch; }
 .pi img { width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--line); display: block; }
 .limits { margin: 0; padding-left: 20px; display: grid; gap: 8px; }
 footer { padding-block: 56px 64px; }
@@ -266,7 +269,7 @@ footer .wrap > * + * { margin-top: 14px; }
   <ul class="proof">
     <li><b>2M+ heartbeats</b> from 2,161 patients it learned from</li>
     <li><b>95.3%</b> PVC score on patients it never saw; frontier AI (Claude Opus 5.5, Fable 5.1) scored 92.0%&ndash;93.7%</li>
-    <li><b>Private, &lt;1 s</b> on your phone or laptop, offline</li>
+    <li><b>Private and light:</b> half a second on a laptop, and it runs on a $15 Raspberry Pi</li>
   </ul>
   <aside class="story">
     <span class="k">Why we built it</span>
@@ -417,16 +420,27 @@ footer .wrap > * + * { margin-top: 14px; }
 </div></section>
 
 <section id="pi"><div class="wrap">
-  <div class="eyebrow">Tiny by design</div>
-  <h2>Tiny enough to run on a Raspberry Pi</h2>
+  <div class="eyebrow">Tested on a Raspberry Pi</div>
+  <h2>Fast enough on a $15 Raspberry Pi Zero 2 W</h2>
   <div class="two pi">
-    <div><p>The whole reader is about 4 million parameters and a few megabytes, and it already runs offline in a phone browser.
-    That makes an air-gapped health box at home realistic: a Raspberry Pi on your own network serving this page, with recordings that never
-    touch the internet.</p>
-    <p class="small">Our estimate for a Raspberry Pi 4 is a second or two per 30-second recording, against well under a second on a laptop. Not yet measured.</p></div>
+    <div><p>We ran Vitaly on a Raspberry Pi Zero 2 W: a $15 board smaller than a credit card, with 512&nbsp;MB of memory, a 1&nbsp;GHz
+    processor and no internet connection. It read each 30-second recording in about 28 seconds, about as long as the watch takes to
+    record it, and found the same beats and the same number of PVCs as a laptop on all 11 test strips.</p>
+    <p>That is the same code this page runs, on one of the board&rsquo;s four cores, in under 100&nbsp;MB of memory. A private
+    health box at home that reads recordings without the cloud is practical on hardware this cheap.</p>
+    <div class="tablewrap"><table class="pit">
+      <tr><th>Device</th><th>Time per 30-second recording</th><th>Same result as the laptop</th></tr>
+      <tr><td>Laptop (MacBook Pro, Apple M5 Max)</td><td class="n">0.5 s</td><td>reference</td></tr>
+      <tr><td><b>Raspberry Pi Zero 2 W</b> ($15, 512 MB)</td><td class="n"><b>28 s</b> (23&ndash;35 s)</td><td>yes, 11 of 11 strips</td></tr>
+    </table></div>
+    <p class="small">Measured on 2 November 2026 with Node 20 on the Pi, run headless with no browser, on this page&rsquo;s 11 strips
+    (3 timed runs each, median), with the board&rsquo;s own voice-assistant software running alongside. The 15 networks load in
+    0.06&nbsp;s. The whole page also ran in Chromium on the Zero (19&ndash;28 s per strip, and
+    157 s once while the board was swapping), but a desktop browser is a squeeze in
+    512&nbsp;MB, so a Pi is best run headless. Not yet tried: all four cores.</p></div>
     <figure><img src="img/healthypi5.jpg" alt="A small health-monitoring board with a screen showing an ECG trace and heart-rate variability plots" loading="lazy">
       <figcaption class="small">Representative image only: the <a href="https://www.crowdsupply.com/protocentral/healthypi-5" target="_blank" rel="noopener">ProtoCentral
-      HealthyPi 5</a> health-monitoring board, photo from its Crowd Supply campaign. Not a Vitaly device.</figcaption></figure>
+      HealthyPi 5</a> health-monitoring board, photo from its Crowd Supply campaign. Not a Vitaly device, and not the board we tested.</figcaption></figure>
   </div>
 </div></section>
 
